@@ -9,7 +9,8 @@ size_t height2(const binary_tree_t *tree)
 	if (!tree)
 		return (0);
 
-	return ((height2(tree->left) > height2(tree->right)) ? height2(tree->left) + 1 : height2(tree->right) + 1);
+	return ((height2(tree->left) > height2(tree->right)) ? \
+	height2(tree->left) + 1 : height2(tree->right) + 1);
 }
 
 /**
