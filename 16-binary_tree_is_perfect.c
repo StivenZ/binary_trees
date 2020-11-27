@@ -1,53 +1,55 @@
 #include "binary_trees.h"
-#include "binary_trees.h"
 /**
- * height - computes height
- * @tree: Pointer to tree binary
- * Return: height of the binary tree
+ * binary_tree_is_perfect - function that checks is a BT is perfect
+ * @tree: pointer to the root of the binary tree.
+ * Return: 1 if the BT is perfect, otherwise return 0
  */
-size_t height(const binary_tree_t *tree)
+int binary_tree_is_perfect(const binary_tree_t *tree)
 {
+	int right = 0, left = 0;
+	int size_left = 0, size_right = 0;
+
 	if (!tree)
 		return (0);
 
-	return ((height(tree->left) > height(tree->right)) ? height(tree->left) + 1 : height(tree->right) + 1);
-}
+	size_left = binary_tree_size(tree->left);
+	size_right = binary_tree_size(tree->right);
+	right = binary_tree_height2(tree->right);
+	left = binary_tree_height2(tree->left);
 
+	if (right == left && size_left == size_right)
+		return (1);
+	else
+		return (0);
+}
 /**
- * binary_tree_height - computes height
- * @tree: Pointer to tree binary
- * Return: height of the binary tree
+ * binary_tree_height - function that measures
+ * the height of a binary tree
+ * @tree: pointer to the root node
+ * Return: height of binary tree.
  */
 size_t binary_tree_height2(const binary_tree_t *tree)
 {
+	size_t left_size = 1, right_size = 1;
+
 	if (!tree)
 		return (0);
+	if (tree->left)
+		left_size = binary_tree_height2(tree->left) + 1;
+	if (tree->right)
+		right_size = binary_tree_height2(tree->right) + 1;
 
-	return (height(tree));
+	return ((left_size > right_size) ? left_size : right_size);
 }
-
 /**
- * binary_tree_balance - measure tree balance factor
- * @tree: pointer to binary tree's root
- * Return: balance factor
-*/
-int binary_tree_balance(const binary_tree_t *tree)
-{
-	if (!tree)
-		return (0);
-
-	return (binary_tree_height2(tree->left) - binary_tree_height2(tree->right));
-}
-
-/**
- * binary_tree_is_perfect - checks if binary tree is perfect
+ * binary_tree_size - computes size of the binary tree
  * @tree: pointer to root
- * Return: 1 if perfect, 0 if not
+ * Return: size of the tree
 */
-int binary_tree_is_perfect(const binary_tree_t *tree)
+size_t binary_tree_size(const binary_tree_t *tree)
 {
 	if (!tree)
 		return (0);
 
-	return (binary_tree_balance(tree) == 0 ? 1 : 0);
+	return (binary_tree_size(tree->left) + binary_tree_size(tree->right) + 1);
 }
